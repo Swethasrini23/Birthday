@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, My Love 🌙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --night: #050a18;
+    --deep: #080f22;
+    --moonlight: #c8d8f0;
+    --stardust: #e8eeff;
+    --gold: #f0d080;
+    --rose: #e8a0b0;
+    --accent: #a0c0ff;
+  }
+
+  body {
+    background: var(--night);
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px var(--gold), 0 0 24px var(--gold);
+    transition: transform 0.1s;
+  }
+
+  /* Stars background */
+  .stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+  }
+
+  /* Nebula blobs */
+  .nebula {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    z-index: 0;
+    animation: nebulaDrift 20s ease-in-out infinite alternate;
+  }
+  .nebula-1 { width: 500px; height: 400px; background: #3050a0; top: -100px; left: -100px; animation-duration: 22s; }
+  .nebula-2 { width: 400px; height: 500px; background: #a03060; top: 20%; right: -100px; animation-duration: 18s; animation-delay: -5s; }
+  .nebula-3 { width: 600px; height: 300px; background: #204080; bottom: 0; left: 20%; animation-duration: 25s; animation-delay: -10s; }
+
+  @keyframes nebulaDrift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.05); }
+  }
+
+  /* Moon */
+  .moon {
+    position: fixed;
+    top: 6vh;
+    right: 10vw;
+    width: 90px;
+    height: 90px;
+    z-index: 1;
+    animation: moonGlow 4s ease-in-out infinite alternate;
+  }
+  .moon-circle {
+    width: 90px; height: 90px;
+    background: radial-gradient(circle at 35% 35%, #fff8e0, #f0d880 40%, #c8a840 80%, #a07020);
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(240,216,128,0.6), 0 0 80px rgba(240,216,128,0.25), 0 0 150px rgba(240,216,128,0.1);
+  }
+  .moon-halo {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 1px solid rgba(240,216,128,0.2);
+    box-shadow: 0 0 20px rgba(240,216,128,0.1);
+  }
+  @keyframes moonGlow {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.15); }
+  }
+
+  /* Slideshow container */
+  .slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .slide-inner {
+    text-align: center;
+    max-width: 680px;
+    position: relative;
+  }
+
+  /* Floating petals / stars around slides */
+  .deco {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: floatUp 6s ease-in-out infinite;
+    user-select: none;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.7; }
+    80% { opacity: 0.5; }
+    100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+  }
+
+  /* Typography */
+  .slide-label {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  .slide-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    color: var(--stardust);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    font-weight: 300;
+    text-shadow: 0 0 40px rgba(200,216,240,0.4);
+  }
+
+  .slide-title em {
+    font-style: italic;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(240,208,128,0.5);
+  }
+
+  .slide-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: var(--moonlight);
+    line-height: 1.85;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+
+  .slide-text strong {
+    color: var(--rose);
+    font-weight: 500;
+  }
+
+  /* Ornament line */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 24px auto;
+    opacity: 0.5;
+  }
+  .ornament-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--accent));
+  }
+  .ornament-line.r {
+    background: linear-gradient(to left, transparent, var(--accent));
+  }
+  .ornament-star { color: var(--gold); font-size: 0.7rem; }
+
+  /* Special big slide — cover */
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 300;
+    opacity: 0.8;
+  }
+  .cover-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    color: var(--stardust);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+    text-shadow: 0 0 60px rgba(200,216,240,0.5), 0 0 120px rgba(160,192,255,0.2);
+    margin-bottom: 8px;
+  }
+  .cover-sub {
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  /* Heart pulse */
+  .heart-big {
+    font-size: 3rem;
+    display: block;
+    margin: 20px auto;
+    animation: heartbeat 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(232,160,176,0.8));
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.18); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.08); }
+  }
+
+  /* Distance pill */
+  .distance-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(160,192,255,0.08);
+    border: 1px solid rgba(160,192,255,0.2);
+    border-radius: 50px;
+    padding: 10px 24px;
+    margin: 20px auto;
+    font-size: 0.85rem;
+    color: var(--moonlight);
+    letter-spacing: 0.05em;
+  }
+  .distance-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--rose);
+    box-shadow: 0 0 8px var(--rose);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+  }
+
+  /* Final slide */
+  .final-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--stardust);
+    font-style: italic;
+    line-height: 1.4;
+    text-shadow: 0 0 40px rgba(200,216,240,0.4);
+  }
+  .final-signature {
+    margin-top: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-style: italic;
+    opacity: 0.9;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(160,192,255,0.25);
+    color: var(--moonlight);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+  }
+  .nav-btn:hover {
+    background: rgba(160,192,255,0.12);
+    border-color: rgba(160,192,255,0.5);
+    box-shadow: 0 0 20px rgba(160,192,255,0.2);
+    transform: scale(1.1);
+  }
+
+  .nav-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(200,216,240,0.25);
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+  .nav-dot.active {
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  /* Shooting stars */
+  .shooting-star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to left, rgba(255,255,255,0.6), transparent);
+  }
+
+  /* Animated entrance for slide content */
+  .slide.active .slide-inner {
+    animation: slideReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes slideReveal {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Sparkle trail */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    font-size: 0.8rem;
+    animation: sparkleFade 1s ease forwards;
+  }
+  @keyframes sparkleFade {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-30px) scale(0); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- Background -->
+<canvas class="stars-canvas" id="starsCanvas"></canvas>
+<div class="nebula nebula-1"></div>
+<div class="nebula nebula-2"></div>
+<div class="nebula nebula-3"></div>
+
+<!-- Moon -->
+<div class="moon">
+  <div class="moon-circle"></div>
+  <div class="moon-halo"></div>
+</div>
+
+<!-- Slideshow -->
+<div class="slideshow" id="slideshow">
+
+  <!-- Slide 1: Cover -->
+  <div class="slide active" id="slide-0">
+    <div class="slide-inner">
+      <div class="cover-title">✦ A Birthday Message ✦</div>
+      <div class="cover-name">Happy Birthday,<br>My Love</div>
+      <div style="height:16px"></div>
+      <div class="cover-sub">🌙 From me, to you, across every mile 🌙</div>
+      <span class="heart-big">💙</span>
+    </div>
+  </div>
+
+  <!-- Slide 2: LDR distance -->
+  <div class="slide" id="slide-1">
+    <div class="slide-inner">
+      <div class="deco" style="top:-40px;left:30px;animation-delay:0s">✦</div>
+      <div class="deco" style="top:-20px;right:20px;animation-delay:1.5s">🌙</div>
+      <div class="slide-label">✦ across the distance ✦</div>
+      <div class="slide-title">We may be <em>miles apart</em>,<br>but you are always<br>right here.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="distance-pill">
+        <div class="distance-dot"></div>
+        You & Me — same sky, different places
+        <div class="distance-dot"></div>
+      </div>
+      <div class="slide-text" style="margin-top:16px">
+        No map, no distance, no timezone has ever<br>
+        made me feel farther from you than I want to be.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: The year together -->
+  <div class="slide" id="slide-2">
+    <div class="slide-inner">
+      <div class="deco" style="top:-30px;left:50px;animation-delay:0.5s">⭐</div>
+      <div class="deco" style="bottom:-30px;right:40px;animation-delay:2s">✨</div>
+      <div class="slide-label">✦ what a journey ✦</div>
+      <div class="slide-title">In less than a year,<br>you became my <em>whole world</em>.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="slide-text">
+        Every call, every late-night message, every<br>
+        "<strong>good morning</strong>" and "<strong>good night</strong>" — they all built<br>
+        something neither of us expected.<br><br>
+        You came into my life and quietly became<br>
+        the person I can't imagine living without.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: The things I love -->
+  <div class="slide" id="slide-3">
+    <div class="slide-inner">
+      <div class="deco" style="top:-50px;right:10px;animation-delay:1s">🌠</div>
+      <div class="slide-label">✦ all the little things ✦</div>
+      <div class="slide-title">I fell in love with<br>the <em>details</em> of you.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="slide-text">
+        The way you laugh.<br>
+        The way you care so deeply.<br>
+        The way you show up for me, even from far away.<br><br>
+        You don't even know how many times<br>
+        a single message from you <strong>turned my whole day around</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: The hard nights -->
+  <div class="slide" id="slide-4">
+    <div class="slide-inner">
+      <div class="deco" style="top:-40px;left:20px;animation-delay:0.3s">🌙</div>
+      <div class="slide-label">✦ on the hard days ✦</div>
+      <div class="slide-title">The nights it felt<br><em>hardest</em> — you were<br>still my peace.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="slide-text">
+        Long distance isn't easy.<br>
+        There are nights when I miss you so much<br>
+        it sits heavy in my chest.<br><br>
+        But then I think of you — and somehow,<br>
+        <strong>that heaviness turns into hope</strong>.<br>
+        Because every hard night means<br>
+        we're getting closer to the same sky.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 6: Same moon -->
+  <div class="slide" id="slide-5">
+    <div class="slide-inner">
+      <div class="deco" style="top:-30px;right:30px;animation-delay:0.8s">✦</div>
+      <div class="deco" style="bottom:-20px;left:20px;animation-delay:2.5s">⭐</div>
+      <div class="slide-label">✦ our little secret ✦</div>
+      <div class="slide-title">Look up tonight.<br>We're under the <em>same moon</em>.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="slide-text">
+        Wherever you are right now,<br>
+        that same moon is watching over you<br>
+        that watches over me.<br><br>
+        We share the same stars, my love.<br>
+        <strong>We were always meant to find each other.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7: Promise -->
+  <div class="slide" id="slide-6">
+    <div class="slide-inner">
+      <div class="deco" style="top:-40px;left:40px;animation-delay:1.2s">💫</div>
+      <div class="slide-label">✦ my promise to you ✦</div>
+      <div class="slide-title">I am <em>choosing you</em>,<br>every single day.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="slide-text">
+        I promise to keep calling, keep writing,<br>
+        keep showing up — because you are worth<br>
+        every mile between us.<br><br>
+        I promise that one day,<br>
+        the distance will just be <strong>a story we tell</strong>.<br>
+        A story of two people who refused to give up.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: Birthday wish -->
+  <div class="slide" id="slide-7">
+    <div class="slide-inner">
+      <div class="deco" style="top:-50px;left:10px;animation-delay:0.4s">🎂</div>
+      <div class="deco" style="top:-30px;right:15px;animation-delay:1.8s">✨</div>
+      <div class="slide-label">✦ today ✦</div>
+      <div class="slide-title">Today, the universe<br>gets to celebrate<br><em>you</em>.</div>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-star">✦</span>
+        <div class="ornament-line r"></div>
+      </div>
+      <div class="slide-text">
+        I wish I could hold your hand today.<br>
+        I wish I could look you in the eyes and tell you<br>
+        just how extraordinary you are.<br><br>
+        But since I can't — just know that <strong>every star tonight</strong><br>
+        is shining a little brighter because of you.
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 9: Final -->
+  <div class="slide" id="slide-8">
+    <div class="slide-inner">
+      <div class="slide-label">✦ always & forever ✦</div>
+      <div class="final-text">
+        "Happy Birthday, my love.<br>
+        Thank you for existing.<br>
+        Thank you for being mine.<br>
+        I love you to every star<br>
+        and back."
+      </div>
+      <span class="heart-big">💙</span>
+      <div class="final-signature">— Yours, always. From across the miles. 🌙</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn">‹</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="nav-btn" id="nextBtn">›</button>
+</div>
+
+<script>
+  // Stars canvas
+  const canvas = document.getElementById('starsCanvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function createStars() {
+    stars = [];
+    for (let i = 0; i < 280; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.2,
+        alpha: Math.random() * 0.8 + 0.1,
+        speed: Math.random() * 0.4 + 0.1,
+        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        twinkleOffset: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      const twinkle = Math.sin(t * s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220, 230, 255, ${s.alpha * twinkle})`;
+      ctx.fill();
+    });
+  }
+
+  let animT = 0;
+  function animateStars() {
+    animT += 1;
+    drawStars(animT);
+    requestAnimationFrame(animateStars);
+  }
+
+  resizeCanvas();
+  createStars();
+  animateStars();
+  window.addEventListener('resize', () => { resizeCanvas(); createStars(); });
+
+  // Shooting stars
+  function createShootingStar() {
+    const el = document.createElement('div');
+    el.className = 'shooting-star';
+    const startX = Math.random() * window.innerWidth * 0.7;
+    const startY = Math.random() * window.innerHeight * 0.5;
+    el.style.left = startX + 'px';
+    el.style.top = startY + 'px';
+    document.body.appendChild(el);
+
+    const angle = 30 + Math.random() * 20;
+    const dist = 200 + Math.random() * 200;
+    const rad = angle * Math.PI / 180;
+    const duration = 800 + Math.random() * 600;
+
+    el.animate([
+      { transform: 'translate(0,0)', opacity: 1 },
+      { transform: `translate(${dist * Math.cos(rad)}px, ${dist * Math.sin(rad)}px)`, opacity: 0 }
+    ], { duration, easing: 'ease-out' }).onfinish = () => el.remove();
+  }
+
+  setInterval(createShootingStar, 3000 + Math.random() * 2000);
+
+  // Slideshow
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('navDots');
+  let current = 0;
+  const total = slides.length;
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+  });
+
+  // Custom cursor + sparkle trail
+  const cursor = document.getElementById('cursor');
+  const sparkleSymbols = ['✦', '⭐', '✨', '💫', '🌟'];
+  let lastSparkle = 0;
+
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+
+    const now = Date.now();
+    if (now - lastSparkle > 120) {
+      lastSparkle = now;
+      const sp = document.createElement('div');
+      sp.className = 'sparkle';
+      sp.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+      sp.style.left = (e.clientX - 8) + 'px';
+      sp.style.top = (e.clientY - 8) + 'px';
+      document.body.appendChild(sp);
+      setTimeout(() => sp.remove(), 1000);
+    }
+  });
+
+  // Auto-advance
+  let autoTimer = setInterval(() => goTo(current + 1), 7000);
+  document.getElementById('nextBtn').addEventListener('click', () => { clearInterval(autoTimer); });
+  document.getElementById('prevBtn').addEventListener('click', () => { clearInterval(autoTimer); });
+</script>
+</body>
+</html>
